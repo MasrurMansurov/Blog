@@ -20,7 +20,7 @@ const ListPosts = () => {
     const endIndex = startIndex + itemsPerPage
     const currentData = data.slice(startIndex, endIndex)
 
-    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    const handleChangePage = (_: React.ChangeEvent<unknown>, value: number) => {
       setCurrentPage(value)
     }
 
