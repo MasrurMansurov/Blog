@@ -1,8 +1,8 @@
 import {User} from "./User"
-import { Todos } from "./Todos"
 import { Post } from "./Post"
+import { Todo } from "./Todos"
 
 export type Profile = User & {
-    todos: Todos[],
+    todos: Todo[],
     posts: Post[]
 }
