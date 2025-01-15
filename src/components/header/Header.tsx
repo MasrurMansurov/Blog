@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import LogIn from '../logIn/LogIn';
-import { useStore } from '../store/useStore';
+import { useStore } from '../../store/useStore';
 
 
 const style = {

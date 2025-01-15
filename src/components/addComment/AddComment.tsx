@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useState } from "react";
 import { Controller, FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useStore } from "../store/useStore";
 import { useParams } from "react-router-dom";
 import { apiComments } from "../../api/path";
 import "./style.css"
 import { axiosInstance } from "../../api/axios";
+import { useStore } from "../../store/useStore";
 
 // Yup
 import {schema} from './Schema'
@@ -79,7 +79,7 @@ const AddComment = () => {
         profile ? (
           <Button onClick={handleOpen} variant="outlined">Add comment</Button>
         ) : (
-          <Button variant="outlined" color="success">Log In</Button>
+          <Typography>Log In please !</Typography>
         )
       }
     <Modal

@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react"
-import { useStore } from "../store/useStore"
 import { axiosInstance } from "../../api/axios"
 import { apiTodos } from "../../api/path"
-// import { User } from "../../type/User"
 import { Box, Typography } from "@mui/material"
 import Loading from "../../assets/loading.svg"
+import { useStore } from "../../store/useStore"
 import "../style.css"
 
 const MyTodos = () => {
   const { profile, setMyTodos} = useStore()
-  // // const todos = useStore((state) => state.todos)
-  // // const setMyTodos = useStore((state) => state.setMyTodos)
   const [loading, setLoading] = useState(false)
     
   const getMyTodos = async (id: number) => {
@@ -28,7 +25,6 @@ const MyTodos = () => {
   useEffect(()=> {
       if (profile && !profile.todos) {
           getMyTodos(profile.id)
-              // setLoading(true)
       }
   },[])
 

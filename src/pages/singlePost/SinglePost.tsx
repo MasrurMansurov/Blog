@@ -2,11 +2,11 @@ import { Box, Button } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AddComment from "../../components/addComment/AddComment"
-import { useStore } from "../../components/store/useStore"
 import "../../components/style.css"
 import { apiComments } from "../../api/path"
 import loading from "../../assets/loading.svg"
 import { axiosInstance } from "../../api/axios"
+import { useStore } from "../../store/useStore"
 
 
 // Icons

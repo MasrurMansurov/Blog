@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import loading from "../../assets/loading.svg";
-import { useStore } from "../store/useStore";
 import { axiosInstance } from "../../api/axios";
 import { apiUsers } from "../../api/path";
+import { useStore } from "../../store/useStore";
 
 const btnStyle = {
   display: 'block',

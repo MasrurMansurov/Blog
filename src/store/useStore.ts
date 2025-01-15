@@ -1,11 +1,12 @@
 import { create } from 'zustand'
 
 // Type
-import { Post } from '../../type/Post'
-import { User } from '../../type/User'
-import { Comment } from '../../type/Comment'
-import { Todo } from '../../type/Todos'
-import { Profile } from '../../type/Profile'
+import { Post } from '../type/Post'
+import { User } from '../type/User'
+import { Profile } from '../type/Profile'
+import { Todo } from '../type/Todos'
+import { Comment } from '../type/Comment'
+
 
 interface IStore {
     posts: Post[],

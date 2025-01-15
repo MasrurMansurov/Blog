@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useStore } from "../store/useStore"
 import loading from "../../assets/loading.svg"
 import { apiPosts, apiUsers } from "../../api/path";
 import { User } from "../../type/User";
@@ -7,6 +6,7 @@ import "../style.css"
 import { Post } from "../../type/Post";
 import PostItem from "../posts-item/post-item";
 import { axiosInstance } from "../../api/axios";
+import { useStore } from "../../store/useStore";
 
 interface Props {
   data: Post[]

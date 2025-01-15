@@ -1,7 +1,6 @@
 import { axiosInstance } from "../../api/axios"
 import { apiPosts } from "../../api/path"
 import { useEffect, useState } from "react"
-import { useStore } from "../store/useStore"
 import { Box, Typography } from "@mui/material"
 import Loading from "../../assets/loading.svg"
 import "../style.css"
@@ -9,6 +8,7 @@ import "../style.css"
 // Icons
 import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import { useStore } from "../../store/useStore"
 
 
 const MyPosts = () => {

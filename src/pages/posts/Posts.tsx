@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
 import ListPosts from '../../components/posts-list/ListPosts'
 import { useState } from "react"
-import { useStore } from '../../components/store/useStore';
 
 // Pagination
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import { useStore } from '../../store/useStore';
 
 const Posts = () => {
 

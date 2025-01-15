@@ -2,10 +2,10 @@ import { Box, Button } from "@mui/material"
 import { Navigate, useNavigate } from "react-router-dom"
 // import { axiosInstance } from "../../api/axios"
 // import { apiUsers } from "../../api/path"
-import { useStore } from "../../components/store/useStore"
 // import { useEffect, useState } from "react"
 import TabProfile from "../../components/tab-profile/TabProfile"
 import "../../components/style.css"
+import { useStore } from "../../store/useStore";
 
 // Icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
