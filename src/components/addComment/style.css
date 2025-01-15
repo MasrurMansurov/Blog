@@ -1,0 +1,9 @@
+.error {
+    color: tomato;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.btn {
+    width: 100%;
+}
