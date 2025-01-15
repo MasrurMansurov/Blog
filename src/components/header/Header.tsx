@@ -1,9 +1,13 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, Navigate } from 'react-router-dom'
 import { Box, Button, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import { useState } from 'react';
 import LogIn from '../logIn/LogIn';
 import { useStore } from '../../store/useStore';
+
+// Menu
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 
 const style = {
@@ -30,23 +34,30 @@ const modalStyle = {
   p: 4,
 };
 
-
 const Header = () => {
-    const navigate = useNavigate()
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openModal, setOpenModal] = useState(false);
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
     const location = useLocation().pathname
     const profile = useStore((state) => state.profile);
     const logOut = useStore((state) => state.logOut);
-    const [isHovered, setIsHovered] = useState(false)
 
-    const userStyle = {
-      textDecoration: isHovered ? 'underline' : 'none',
-      color: 'blue',
-      fontSize: '25px',
-      fontWeight: '900'
+    // Menu
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    const removeProfileFromLocalStorage = () => {
+      localStorage.removeItem('profile');
+      logOut()
+      handleClose()
     }
+
 
   return (
       <Box 
@@ -82,58 +93,50 @@ const Header = () => {
           </Link> 
         </Box>
 
-          <Button onClick={handleOpen} variant='outlined' color='success'>Log In</Button>
+          {
+            profile ? (
+            <Box>
+              <Button 
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick} 
+                variant="outlined"
+                >
+                  {profile.name}
+                </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                <MenuItem key='profile'>
+                  <Link style={{textDecoration: 'none', color: 'black'}} to={`profile`}>
+                      Profile
+                  </Link>
+                  </MenuItem>
+                <MenuItem key='logout' onClick={removeProfileFromLocalStorage}>
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Box>
+            ) :
+            <Button onClick={handleOpenModal} variant='outlined' color='success'>Log In</Button>
+          }
+
           <Modal
-              open={open}
-              onClose={handleClose}
+              open={openModal}
+              onClose={handleCloseModal}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
               <Box sx={modalStyle}>
-                {
-                  profile ? (
-                    <Box 
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center'
-                      }}
-                      >
-                        <Link
-                          onClick={handleClose}
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                          style={userStyle} 
-                          to={`/profile`}
-                          >
-                          {profile.name}
-                        </Link>
-                        <Box
-                        sx={{
-                          display: 'flex', 
-                          alignItems: 'center',
-                          gap: '20px',
-                          mt: '20px'
-                        }}
-                        >
-                        <Button
-                        onClick={handleClose}
-                        variant='outlined'
-                        color='error'
-                        >
-                          Close
-                        </Button>
-                        <Button 
-                          variant='outlined' 
-                          onClick={() => ( logOut(), handleClose(), navigate('../posts') )}
-                          >
-                          Log Out
-                        </Button>
-                        </Box>
-                    </Box>
-                  ) :
-                <LogIn/>
-                }
+                { profile ?  setTimeout(() => {handleCloseModal()},0.1) && <Navigate to='/' />  : <LogIn/> }
               </Box>
             </Modal>
        </Box> 
@@ -141,3 +144,7 @@ const Header = () => {
 }
 
 export default Header
+
+
+
+

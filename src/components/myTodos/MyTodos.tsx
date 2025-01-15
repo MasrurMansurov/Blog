@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { axiosInstance } from "../../api/axios"
 import { apiTodos } from "../../api/path"
-import { Box, Typography } from "@mui/material"
-import Loading from "../../assets/loading.svg"
+import { Box, CircularProgress, Typography } from "@mui/material"
 import { useStore } from "../../store/useStore"
 import "../style.css"
 
@@ -33,7 +32,7 @@ const MyTodos = () => {
   }
 
   if(loading){
-    return <div className="loading"> <img src={Loading} alt="Loading..." /> </div>
+    return <div className="loading"> <CircularProgress /> </div>
   }
 
   return (

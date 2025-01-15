@@ -1,10 +1,9 @@
-import { Box, Button } from "@mui/material"
+import { Box, Button, CircularProgress } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AddComment from "../../components/addComment/AddComment"
 import "../../components/style.css"
 import { apiComments } from "../../api/path"
-import loading from "../../assets/loading.svg"
 import { axiosInstance } from "../../api/axios"
 import { useStore } from "../../store/useStore"
 
@@ -40,7 +39,7 @@ const SinglePost = () => {
   }, [])
 
   if(!comments.length && loadingComments){
-    return <div className="loading"> <img src={loading} alt="Loading..." /> </div>
+    return <div className="loading"> <CircularProgress /> </div>
   }
 
   const handleNavigate = () => {

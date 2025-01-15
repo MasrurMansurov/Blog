@@ -1,8 +1,5 @@
 import { Box, Button } from "@mui/material"
 import { Navigate, useNavigate } from "react-router-dom"
-// import { axiosInstance } from "../../api/axios"
-// import { apiUsers } from "../../api/path"
-// import { useEffect, useState } from "react"
 import TabProfile from "../../components/tab-profile/TabProfile"
 import "../../components/style.css"
 import { useStore } from "../../store/useStore";
@@ -17,24 +14,6 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 const Profile = () => {
     const navigate = useNavigate()
     const profile = useStore((state) => state.profile)
-    // const [ _ , setUsers] = useState([])
-
-
-    // const loadUsers = async (id: number) => {
-    //     try {
-    //         const response = await axiosInstance.get(`${apiUsers}/${id}`)
-    //         setUsers(response.data)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
-    //
-    // useEffect(() => {
-    //     if(!profile){
-    //         loadUsers(profile.id)
-    //     }
-    // }, [proifile])
-    //
 
    const style = {
     display: 'flex', 

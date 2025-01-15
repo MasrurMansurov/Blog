@@ -1,8 +1,7 @@
 import { axiosInstance } from "../../api/axios"
 import { apiPosts } from "../../api/path"
 import { useEffect, useState } from "react"
-import { Box, Typography } from "@mui/material"
-import Loading from "../../assets/loading.svg"
+import { Box, CircularProgress, Typography } from "@mui/material"
 import "../style.css"
 
 // Icons
@@ -39,7 +38,7 @@ const MyPosts = () => {
   }
 
   if (loading){
-    return <div className="loading"> <img src={Loading} alt="Loading..." /> </div>
+    return <div className="loading"> <CircularProgress /> </div>
   }
 
   return (

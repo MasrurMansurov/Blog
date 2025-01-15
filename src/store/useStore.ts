@@ -12,7 +12,7 @@ interface IStore {
     posts: Post[],
     users: User[],
     profile: Profile | null ,
-    setProfile: (user: Profile) => void,
+    setProfile: (profile: any) => void,
     logOut: () => void,
     getPosts: (posts: Post[]) => void,
     getComments: (comments: Comment[]) => void, 
@@ -22,18 +22,25 @@ interface IStore {
     setMyTodos: (todos: Todo[]) => void
 }
 
+const getProfileFromLocalStorage = () => {
+    const getProfile = localStorage.getItem('profile')
+    if(getProfile) {
+        return JSON.parse(getProfile) as Profile
+    }
+    return null
+}
+
 export const useStore = create<IStore>((set) => ({
     posts: [],
     users: [],
-    profile: null,
-    setProfile: (user) => set({ profile: user }),
+    profile: getProfileFromLocalStorage(),
+    setProfile: (profile) => set({ profile }),
     logOut: () => set({ profile: null }),
 
 
     getPosts: (posts) => {
        set({ posts: posts.map(post => ({ ...post, comments: [] })) })
     },
-
     getComments: (comments) => {
         set((state) => ({
             posts: state.posts.map(post => 
@@ -43,7 +50,6 @@ export const useStore = create<IStore>((set) => ({
             )
         }))
     },         
-
     addComment: (postId, name, email, body) => {
         set((state) => {
             const newComment: Comment = {
@@ -61,7 +67,6 @@ export const useStore = create<IStore>((set) => ({
             return { posts: updatedData }
         })
     },
-
     getUsers: (users) => {
         set({ users })
     },

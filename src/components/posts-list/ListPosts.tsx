@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import loading from "../../assets/loading.svg"
 import { apiPosts, apiUsers } from "../../api/path";
 import { User } from "../../type/User";
 import "../style.css"
@@ -7,6 +6,7 @@ import { Post } from "../../type/Post";
 import PostItem from "../posts-item/post-item";
 import { axiosInstance } from "../../api/axios";
 import { useStore } from "../../store/useStore";
+import { CircularProgress } from "@mui/material";
 
 interface Props {
   data: Post[]
@@ -47,7 +47,7 @@ const ListPosts = ({data}: Props) => {
 
 
     if(!posts.length && loadingPost){
-      return <div className="loading"> <img src={loading} alt="Loading..." /> </div>
+      return <div className="loading"> <CircularProgress /> </div>
     }
 
     if(!users.length){
