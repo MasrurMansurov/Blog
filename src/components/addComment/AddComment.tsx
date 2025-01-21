@@ -43,15 +43,13 @@ const AddComment = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const profile = useStore((state) => state.profile)
+    const {addComment} = useStore()
 
     const methods = useForm<IForm>({
       resolver: yupResolver(schema)
     })
     
     const {control, handleSubmit, formState: {errors}} = methods
-    const {addComment} = useStore()
-
-
     const onSubmit: SubmitHandler<IForm> = async (data) => {
         try {
             const newComment = await axiosInstance.post(`${apiComments}`, {
@@ -79,7 +77,7 @@ const AddComment = () => {
         profile ? (
           <Button onClick={handleOpen} variant="outlined">Add comment</Button>
         ) : (
-          <Typography>Log In please !</Typography>
+          <Typography>Please <span style={{color: 'blue'}}>Log In</span> !</Typography>
         )
       }
     <Modal

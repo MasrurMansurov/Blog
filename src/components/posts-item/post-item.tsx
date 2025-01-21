@@ -27,7 +27,7 @@ interface Post {
   title: string, 
   body: string,
   userId: number,
-  userName: string
+  userName?: string
  };
 
 interface Props {
