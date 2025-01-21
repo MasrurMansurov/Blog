@@ -1,12 +1,11 @@
 import { Box, Button, CircularProgress } from "@mui/material"
-import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import AddComment from "../../components/addComment/AddComment"
 import "../../components/style.css"
 import { apiComments } from "../../api/path"
 import { axiosInstance } from "../../api/axios"
+import { useQuery } from "@tanstack/react-query"
 import { useStore } from "../../store/useStore"
-
 
 // Icons
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -16,31 +15,29 @@ const SinglePost = () => {
 
   const navigate = useNavigate()
   const { id } = useParams() as { id: string }
-  const { posts, getComments } = useStore()
-  const [loadingComments, setLoadingComments] = useState(false)
+  const { posts } = useStore()
+ 
+  const getComments = async (id: number) => {
+    const response = await axiosInstance.get(`${apiComments}?postId=${id}`)
+    return response.data
+  }
+  const { data, isPending, error } = useQuery({
+    queryKey: ['comments', +id],
+    queryFn: getComments,
+  })
 
-  const loadComments = async (id: number) => {
-    try {
-      const response = await axiosInstance.get(`${apiComments}?postId=${id}`)
-      getComments(response.data)
-    } catch (error) {
-      console.error(error)
-    }
+  if(isPending) {
+    return <div className="loading"> <CircularProgress /> </div>
+  }
+  if(error) { 
+    return <div>An error has occurred: {error.message}</div>
   }
 
   const post = posts.find((post) => post.id === +id)
-  const comments = post ? post.comments : []
-
-  useEffect(() => {
-    if (!comments.length) {
-      loadComments(+id)
-      setLoadingComments(true)
-    }
-  }, [])
-
-  if(!comments.length && loadingComments){
-    return <div className="loading"> <CircularProgress /> </div>
+  if (!post) {
+    return <div className="loading">Sorry something gone wrong :(</div>
   }
+  const comments = post.comments
 
   const handleNavigate = () => {
     navigate('../posts')
@@ -52,7 +49,6 @@ const SinglePost = () => {
         <AddComment /> 
       <Button onClick={handleNavigate} variant="outlined">Back to posts</Button>
       </Box>
-
 
       <div>
         {

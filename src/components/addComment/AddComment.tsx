@@ -79,7 +79,7 @@ const AddComment = () => {
         profile ? (
           <Button onClick={handleOpen} variant="outlined">Add comment</Button>
         ) : (
-          <Typography>Log In please !</Typography>
+          <Typography>Please <span style={{color: 'blue'}}>Log In</span> !</Typography>
         )
       }
     <Modal

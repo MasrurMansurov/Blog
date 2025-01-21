@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { apiPosts } from "../../api/path"
-import loading from "../../assets/loading.svg"
 import "../../components/style.css"
 import { axiosInstance } from "../../api/axios"
 
@@ -39,7 +38,7 @@ const UserPage = () => {
   }, [])
 
   if(!post.length && loadingProfile){
-    return <div className="loading"> <img src={loading} alt="Loading..." /> </div>
+    return <div className="loading"> <CircularProgress /> </div>
   }
 
   const handleNavigate = () => {
