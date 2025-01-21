@@ -39,7 +39,7 @@ const Posts = () => {
     return <div className="loading"> <CircularProgress /> </div>
   }
   if(error){
-    return <div>An error has occurred: {error.message}</div>
+    return <div className='loading'>An error has occurred: {error.message}</div>
   }
 
   // Pagination

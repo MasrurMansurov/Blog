@@ -2,10 +2,11 @@ import { Box, Button, CircularProgress } from "@mui/material"
 import { useNavigate, useParams } from "react-router-dom"
 import AddComment from "../../components/addComment/AddComment"
 import "../../components/style.css"
-import { apiComments } from "../../api/path"
+import { apiComments, apiPosts } from "../../api/path"
 import { axiosInstance } from "../../api/axios"
 import { useQuery } from "@tanstack/react-query"
-import { useStore } from "../../store/useStore"
+import { Post } from "../../type/Post"
+import { Comment } from "../../type/Comment"
 
 // Icons
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -15,29 +16,51 @@ const SinglePost = () => {
 
   const navigate = useNavigate()
   const { id } = useParams() as { id: string }
-  const { posts } = useStore()
- 
-  const getComments = async (id: number) => {
-    const response = await axiosInstance.get(`${apiComments}?postId=${id}`)
+
+  // Query Posts
+  const getPosts = async () => {
+    const response = await axiosInstance.get<Post[]>(apiPosts)
     return response.data
   }
-  const { data, isPending, error } = useQuery({
-    queryKey: ['comments', +id],
-    queryFn: getComments,
+  const { data: posts, isPending: isPendingPosts, error: errorPosts } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+    retry: 3
   })
+ 
+  // Query Comments
+  const getComments = async (id: number) => {
+    const response = await axiosInstance.get<Comment[]>(`${apiComments}?postId=${id}`)
+    return response.data
+  }
+  const { data: commentsData, isPending: isPendingComments, error: errorComments } = useQuery({
+    queryKey: ['comments', +id],
+    queryFn: () => getComments(+id),
+  })
+
+  const isPending = isPendingPosts || isPendingComments
+  const error = errorPosts || errorComments
 
   if(isPending) {
     return <div className="loading"> <CircularProgress /> </div>
   }
-  if(error) { 
-    return <div>An error has occurred: {error.message}</div>
+  if (error) {
+    return (
+      <div>
+        <h2>An error has occurred</h2>
+        <p>{error.message}</p>
+        <Button onClick={() => window.location.reload()} variant="outlined">
+          Try again
+        </Button>
+      </div>
+    );
   }
-
-  const post = posts.find((post) => post.id === +id)
-  if (!post) {
+  
+  const findPost = posts.find((post) => post.id === +id)
+  if (!findPost) {
     return <div className="loading">Sorry something gone wrong :(</div>
   }
-  const comments = post.comments
+  const comments = commentsData
 
   const handleNavigate = () => {
     navigate('../posts')

@@ -2,12 +2,12 @@ import { axiosInstance } from "../../api/axios"
 import { apiPosts } from "../../api/path"
 import { useEffect, useState } from "react"
 import { Box, CircularProgress, Typography } from "@mui/material"
+import { useStore } from "../../store/useStore"
 import "../style.css"
 
 // Icons
 import AbcOutlinedIcon from "@mui/icons-material/AbcOutlined";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import { useStore } from "../../store/useStore"
 
 
 const MyPosts = () => {
@@ -32,15 +32,13 @@ const MyPosts = () => {
       }
   },[])
 
-
   if (!profile) {
       return null
   }
-
   if (loading){
     return <div className="loading"> <CircularProgress /> </div>
   }
-
+  
   return (
     <div>
       {

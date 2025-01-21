@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { Box, Button, CircularProgress, Typography } from "@mui/material"
 import { apiPosts } from "../../api/path"
 import "../../components/style.css"
 import { axiosInstance } from "../../api/axios"
+import { useQuery } from "@tanstack/react-query"
+import { Post } from "../../type/Post"
 
 // Animation
 import { motion } from "framer-motion";
@@ -18,29 +19,25 @@ const UserPage = () => {
 
   const navigate = useNavigate()
   const {id} = useParams() as { id: string }
-  const [post, setPost] = useState([])
-  const [loadingProfile, setLoadingProfile] = useState(false)
+  
+  // Query User Posts
+  const getUsersPosts = async (id: number) => {
+    const response = await axiosInstance.get(`${apiPosts}?userId=${id}`)
+    return response.data
+  } 
+  const { data, isPending, error } = useQuery({
+    queryKey: ['posts', +id],
+    queryFn: () => getUsersPosts(+id)
+  })
+  const post = data
 
-  const getUserPosts = async (id: number) => {
-    try {
-        const response = await axiosInstance.get(`${apiPosts}?userId=${id}`)
-        setPost(response.data)
-      } catch (error) {
-        console.error(error)
-    }
-  }
-
-  useEffect(() => {
-    if(!post.length){
-      getUserPosts(+id)
-      setLoadingProfile(true)
-    }
-  }, [])
-
-  if(!post.length && loadingProfile){
+  if (isPending){
     return <div className="loading"> <CircularProgress /> </div>
   }
-
+  if (error) {
+    return <div className="loading">Error fetching data: {error.message}</div>
+  }
+    
   const handleNavigate = () => {
     navigate('../posts')
   }
@@ -59,7 +56,7 @@ const UserPage = () => {
 
      {
       post.length > 0 &&
-      post.map(({id, title, body})=> {
+      post.map(({id, title, body}: Post)=> {
           return (
             <div className="main-comment" key={id}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
